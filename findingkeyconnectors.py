@@ -1,6 +1,6 @@
 from __future__ import division
 from collections import Counter
-
+from collections import defaultdict
 
 users = [
 { "id": 0, "name": "Hero" },
@@ -105,3 +105,74 @@ def friends_of_friends_ids(user):
         
 
 print(Counter(friends_of_friends_ids(users[3])))
+
+
+interests = [
+(0, "Hadoop"), (0, "Big Data"), (0, "HBase"), (0, "Java"),
+(0, "Spark"), (0, "Storm"), (0, "Cassandra"),
+(1, "NoSQL"), (1, "MongoDB"), (1, "Cassandra"), (1, "HBase"),
+(1, "Postgres"), (2, "Python"), (2, "scikit-learn"), (2, "scipy"),
+(2, "numpy"), (2, "statsmodels"), (2, "pandas"), (3, "R"), (3, "Python"),
+(3, "statistics"), (3, "regression"), (3, "probability"),
+(4, "machine learning"), (4, "regression"), (4, "decision trees"),
+(4, "libsvm"), (5, "Python"), (5, "R"), (5, "Java"), (5, "C++"),
+(5, "Haskell"), (5, "programming languages"), (6, "statistics"),
+(6, "probability"), (6, "mathematics"), (6, "theory"),
+(7, "machine learning"), (7, "scikit-learn"), (7, "Mahout"),
+(7, "neural networks"), (8, "neural networks"), (8, "deep learning"),
+(8, "Big Data"), (8, "artificial intelligence"), (9, "Hadoop"),
+(9, "Java"), (9, "MapReduce"), (9, "Big Data")
+]
+
+
+# find user with certain interest 
+
+def find_user_interest(interest):
+    ids=[]
+    for id in interests:
+        if id[1]==interest:
+            ids.append(id[0])
+    return ids
+
+print(f"User id with interest : {find_user_interest('probability')}")
+
+
+# for large dict , we should make mapping from interest to user ids
+
+user_ids_by_interest=defaultdict(list)
+
+# keys are interests , values are list of user_ids with that interest
+for user_id, interest in interests:
+    user_ids_by_interest[interest].append(user_id)
+
+
+print(user_ids_by_interest)
+
+
+def most_common_interest():
+    common = 0
+
+    for interest in user_ids_by_interest:
+        count = 0
+
+        for user in user_ids_by_interest[interest]:
+            count += 1
+
+        common = max(common, count)
+
+    return common
+
+print(most_common_interest())
+
+
+def most_common_interests_with(user):
+    result = []
+
+    for interest in user_ids_by_interest[user["id"]]:
+        for interested_user_id in user_ids_by_interest[interest]:
+            if interested_user_id != user["id"]:
+                result.append(interested_user_id)
+
+    return Counter(result)
+
+print(most_common_interests_with(users[0]))
