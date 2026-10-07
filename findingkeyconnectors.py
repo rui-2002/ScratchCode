@@ -165,14 +165,25 @@ def most_common_interest():
 print(most_common_interest())
 
 
-def most_common_interests_with(user):
-    result = []
+salaries_and_tenures = [
+(83000, 8.7), (88000, 8.1),
+(48000, 0.7), (76000, 6),
+(69000, 6.5), (76000, 7.5),
+(60000, 2.5), (83000, 10),
+(48000, 1.9), (63000, 4.2)]
 
-    for interest in user_ids_by_interest[user["id"]]:
-        for interested_user_id in user_ids_by_interest[interest]:
-            if interested_user_id != user["id"]:
-                result.append(interested_user_id)
 
-    return Counter(result)
+salary_by_year=defaultdict(list)
 
-print(most_common_interests_with(users[0]))
+for salary , year in salaries_and_tenures :
+    salary_by_year[year].append(salary)
+
+print(salary_by_year)
+
+# average salary by tenure
+average_salary_by_tenure={
+    year : sum(salary)/len(salary)
+    for year , salary in salary_by_year.items()
+}
+
+print(average_salary_by_tenure)
