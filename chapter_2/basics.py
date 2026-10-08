@@ -87,3 +87,35 @@ last_three = x[-3:] # [7, 8, 9]
 without_first_and_last = x[1:-1]
 copy_of_x = x[:] 
 
+x.append(0)
+
+print(x)
+
+
+# Tuples :immutable cannot be modified list
+
+
+my_tuple=(1,2)
+try:
+    my_tuple[1]=2
+except TypeError:
+    print("Cannot modify a tuple")
+
+
+# print index of tuple data
+print(my_tuple.index(2))
+
+# Dictonaries : key value pair
+
+empty_dict={}
+empty_dict2=dict()
+
+grades={"sumit":1 , "amit":2}
+
+grades["sumit"]=2
+print(grades)
+
+try:
+    kates_grade = grades["Kate"]
+except KeyError:
+    print ("no grade for Kate!")
